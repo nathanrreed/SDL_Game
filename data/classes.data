@@ -1,0 +1,4 @@
+// File format
+// enum name, class name, base hp
+WARRIOR,Warrior,40
+WIZARD,Wizard,25

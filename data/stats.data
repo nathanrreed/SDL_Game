@@ -1,0 +1,7 @@
+// File format
+// enum name, stat name
+STR,Strength
+AGI,Agility
+INT,Intelligence
+END,Endurance
+LCK,Luck

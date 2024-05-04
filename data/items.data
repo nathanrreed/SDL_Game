@@ -1,0 +1,5 @@
+// File format
+// enum name, item name, level_requirement, durability
+NONE,NONE,0,-1
+BROKEN_SWORD,Broken Sword,0,100
+SHORT_SWORD,Short Sword,5,500

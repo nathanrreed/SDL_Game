@@ -1,0 +1,22 @@
+{
+    "files.associations": {
+        "sdl.h": "c",
+        "stdlib.h": "c",
+        "main.h": "c",
+        "gui.h": "c",
+        "defs.h": "c",
+        "globals.h": "c",
+        "types.h": "c",
+        "input.h": "c",
+        "draw.h": "c",
+        "init.h": "c",
+        "battle.h": "c",
+        "animate.h": "c",
+        "structs.h": "c",
+        "common.h": "c",
+        "sdl_image.h": "c",
+        "chrono": "c",
+        "variant": "c",
+        "cstdlib": "c"
+    }
+}
