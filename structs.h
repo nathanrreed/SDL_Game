@@ -6,8 +6,8 @@
 #include "types.h"
 
 typedef struct {
-    SDL_Renderer *renderer;
-    SDL_Window *window;
+    SDL_Renderer* renderer;
+    SDL_Window* window;
 } App;
 
 // typedef enum {
@@ -49,7 +49,7 @@ typedef struct {
     u32 size;
     SDL_FRect rect;
     SDL_Texture* texture;
-    SDL_FPoint offsets [9];
+    SDL_FPoint offsets[9];
 } Construct;
 
 typedef enum {
@@ -102,15 +102,15 @@ typedef enum {
     // SMALL = 0x10
 } TextRenderFlags;
 
-#define BUTTON_TEXT_LEN 16 // Increase later if needed
+#define BUTTON_TEXT_LEN 16  // Increase later if needed
 typedef enum {
-    //TextRenderFlags,
+    // TextRenderFlags,
     PRESSING = 0x4000000,
-    HIDDEN   = 0x8000000,
+    HIDDEN = 0x8000000,
     DISABLED = 0x10000000,
-    ACTIVE   = 0x20000000,
+    ACTIVE = 0x20000000,
     SELECTED = 0x40000000,
-    HOVER    = 0x80000000
+    HOVER = 0x80000000
 } ButtonFlags;
 
 // struct ButtonElement;
@@ -129,7 +129,7 @@ typedef enum {
 //     DOWN
 // } Direction;
 
-typedef struct { // Offsets from the current button to the button in question
+typedef struct {  // Offsets from the current button to the button in question
     s32 left;
     s32 right;
     s32 up;
@@ -147,7 +147,7 @@ typedef struct ButtonElement {
     u32 z_index;
     SDL_FRect rect;
     ButtonFlags flags;
-    SDL_Color color; // ADD TEXTURE OPTION
+    SDL_Color color;  // ADD TEXTURE OPTION
     SDL_Color hover_color;
     ButtonDirections direction;
     char text[BUTTON_TEXT_LEN];
@@ -162,21 +162,24 @@ typedef struct {
     SDL_FRect inner;
     SDL_FRect outer;
     SDL_Color inner_color;
-    SDL_Color outer_color; // ADD TEXTURE OPTION
+    SDL_Color outer_color;  // ADD TEXTURE OPTION
 } PaddedElement;
 
 typedef struct {
     ObjectEnum type;
     u32 z_index;
     SDL_FRect rect;
-    SDL_Color color; // ADD TEXTURE OPTION
+    SDL_Color color;  // ADD TEXTURE OPTION
 } UnPaddedElement;
 
 typedef enum {
-    MENU_HIDDEN = 0x1, // Will it be drawn
-    MENU_ACTIVE = 0x2, // Can any buttons be pressed
+    MENU_HIDDEN = 0x1,  // Will it be drawn
+    MENU_ACTIVE = 0x2,  // Can any buttons be pressed
 
 } MenuEnum;
+
+union Object;
+typedef bool (*event_fn)(union Object*, SDL_Event*);
 
 typedef struct {
     ObjectEnum type;
@@ -186,6 +189,7 @@ typedef struct {
     Array* components;
     Array* textures;
     Array* buttons;
+    event_fn onEvent;
 } Menu;
 
 struct TextBox;
@@ -200,7 +204,7 @@ typedef struct TextBox {
     string text;
 } TextBox;
 
-typedef union {
+typedef union Object {
     ObjectEnum type;
     DummyObject obj;
     Lerp lerp;

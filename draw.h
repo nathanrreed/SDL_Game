@@ -18,7 +18,7 @@ SDL_FPoint lerp2d(SDL_FPoint start, SDL_FPoint end, float time);
 
 float diff_lerp(float a, float b, float t);
 
-void render_text(char* text, SDL_FRect* dest, TextRenderFlags flags);
+SDL_Texture* render_text(char* text, SDL_FRect* dest, TextRenderFlags flags);
 
 void draw_map();
 

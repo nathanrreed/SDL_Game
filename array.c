@@ -1,10 +1,10 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "types.h"
 #include "array.h"
+#include "types.h"
 
-Array* create_array(size_t size, u32 length, u32 extend_by, void (*add_callback)(Array*)) {
+Array* create_array(u32 size, u32 length, u32 extend_by, void (*add_callback)(Array*)) {
     Array* arr = malloc(sizeof(Array) + fmax(size, size * length));
     arr->t_size = size;
     arr->memory = (void*)arr + sizeof(Array);
@@ -20,14 +20,14 @@ void* get(Array* arr, u32 pos) {
 }
 
 void* add(Array** arr, void* data) {
-    if((*arr)->length == (*arr)->array_length) {
+    if ((*arr)->length == (*arr)->array_length) {
         assert((*arr)->extend_by > 0);
         (*arr)->array_length += (*arr)->extend_by;
 
-        *arr = (Array*) realloc(*arr, sizeof(Array) + (*arr)->t_size * (*arr)->array_length);
+        *arr = (Array*)realloc(*arr, sizeof(Array) + (*arr)->t_size * (*arr)->array_length);
         (*arr)->memory = (void*)(*arr) + sizeof(Array);
 
-        if((*arr)->add_callback != NULL)
+        if ((*arr)->add_callback != NULL)
             (*((*arr)->add_callback))(*arr);
     }
 
@@ -40,7 +40,7 @@ void* add(Array** arr, void* data) {
 void insert(Array** arr, void* data, __compar_fn_t __compar) {
     add(arr, data);
     qsort((*arr)->memory, (*arr)->length, (*arr)->t_size, __compar);
-    if((*arr)->add_callback != NULL)
+    if ((*arr)->add_callback != NULL)
         (*(*arr)->add_callback)(*arr);
 }
 
@@ -48,7 +48,7 @@ void swap(Array* arr, void* data, u32 index) {
     memcpy(arr->memory + arr->t_size * index, data, arr->t_size);
 }
 
-// void insert(Array* arr, void* data, __compar_fn_t __compar) { //TODO FIX 
+// void insert(Array* arr, void* data, __compar_fn_t __compar) { //TODO FIX
 //     if(arr->length == arr->array_length) {
 //         arr->array_length++;
 //         arr = realloc(arr, sizeof(Array) + arr->t_size * arr->array_length);
@@ -80,7 +80,7 @@ void swap(Array* arr, void* data, u32 index) {
 void delete(Array* arr, u32 pos) {
     assert(arr->length > 0);
 
-    if(pos != arr->length - 1) {
+    if (pos != arr->length - 1) {
         memmove(get(arr, pos), get(arr, pos + 1), (arr->length - pos) * arr->t_size);
     }
 
@@ -88,7 +88,7 @@ void delete(Array* arr, u32 pos) {
 }
 
 void set(Array* arr, void* data) {
-    for(int i = 0; i < arr->array_length; i++){
+    for (int i = 0; i < arr->array_length; i++) {
         memcpy(arr->memory + arr->t_size * i, data, arr->t_size);
     }
 }
@@ -102,8 +102,8 @@ void empty(Array* arr) {
 }
 
 void* find(Array* arr, void* key, __compar_fn_t compar, void* default_value) {
-    for(int i = 0; i < arr->length; i++) {
-        if(compar(key, get(arr, i)) == 0) {
+    for (int i = 0; i < arr->length; i++) {
+        if (compar(key, get(arr, i)) == 0) {
             return get(arr, i);
         }
     }

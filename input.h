@@ -5,6 +5,14 @@
 
 extern Array* user_inputs;
 
+void check_inputs(Object* object, event_fn onEvent);
+
+ButtonElement* find_active(ButtonElement* btn);
+
+Menu* find_active_menu(Array* arr);
+
+void select_button(ButtonElement* old, ButtonElement* new);
+
 void doInput(float elapsedMS);
 void check_button_input(ButtonElement* btn);
 

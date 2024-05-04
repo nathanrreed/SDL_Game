@@ -10,7 +10,9 @@ typedef enum {
     BACKGROUND = 0,
     FOREGROUND = 10,
     GUI = 100,
-    BUTTON = 120
+    BUTTON = 120,
+
+    TOP = INT_MAX
 } ZIndexes;
 
 #endif

@@ -17,6 +17,9 @@
         "sdl_image.h": "c",
         "chrono": "c",
         "variant": "c",
-        "cstdlib": "c"
-    }
+        "cstdlib": "c",
+        "numbers": "c",
+        "array.h": "c"
+    },
+    "cmake.configureOnOpen": true
 }

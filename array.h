@@ -1,7 +1,9 @@
+#ifndef ARRAY_H
+#define ARRAY_H
 #include "types.h"
 
-#ifndef __compar_fn_t 
-typedef int (*__compar_fn_t) (const void *, const void *);
+#ifndef __compar_fn_t
+typedef int (*__compar_fn_t)(const void*, const void*);
 #endif
 
 typedef struct Array {
@@ -29,4 +31,4 @@ void empty(Array* arr);
 
 void* find(Array* arr, void* key, __compar_fn_t compar, void* default_value);
 
-#pragma once
+#endif
