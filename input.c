@@ -56,9 +56,22 @@ ButtonElement* find_active(ButtonElement* btn) {
     return NULL;
 }
 
+// Finds highest z-index menu
+Menu* find_high_z_menu(Array* arr, MenuEnum flags, MenuEnum flags_check) {
+    Object* curr;
+    for (int i = arr->length - 1; i >= 0; i--) {
+        curr = get(arr, i);
+        if (curr->type == OBJECT_MENU && (curr->menu.flags & flags) == flags_check) {
+            return &curr->menu;
+        }
+    }
+
+    return NULL;
+}
+
 Menu* find_active_menu(Array* arr) {
     Object* curr;
-    for (int i = 0; i < arr->length; i++) {
+    for (int i = arr->length - 1; i >= 0; i--) {
         curr = get(arr, i);
         if (curr->type == OBJECT_MENU && (curr->menu.flags & MENU_ACTIVE) > 0) {
             return &curr->menu;

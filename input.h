@@ -9,6 +9,8 @@ void check_inputs(Object* object, event_fn onEvent);
 
 ButtonElement* find_active(ButtonElement* btn);
 
+Menu* find_high_z_menu(Array* arr, MenuEnum flags, MenuEnum flags_check);
+
 Menu* find_active_menu(Array* arr);
 
 void select_button(ButtonElement* old, ButtonElement* new);

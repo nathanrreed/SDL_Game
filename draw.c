@@ -93,7 +93,7 @@ void draw_button(ButtonElement* btn, MenuEnum flags) {
         return;
     // Get any changes from cached events
 
-    if ((flags & MENU_ACTIVE) > 0 || find_active_menu(objects) == NULL)  // Active menu so check inputs
+    if ((flags & MENU_ACTIVE) > 0)  // Active menu so check inputs
         check_button_input(btn);
 
     if ((btn->flags & (HIDDEN | DISABLED)) > 0) {

@@ -14,9 +14,14 @@
 void resume(ButtonElement* e, u8 button) {
     if (button == 1) {
         Menu* menu = find_active_menu(objects);
-        if (menu != NULL) {
+        if (menu != NULL) { // Hide menu
             menu->flags |= MENU_HIDDEN;
             menu->flags &= (~MENU_ACTIVE);
+        }
+
+        menu = find_high_z_menu(objects, MENU_ACTIVE | MENU_HIDDEN, 0);
+        if (menu != NULL) { // Give active to highest non hidden
+            menu->flags |= MENU_ACTIVE;
         }
 
         pressUp(e, button);
