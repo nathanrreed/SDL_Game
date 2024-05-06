@@ -68,8 +68,8 @@ void start_lerp_animation(Animation* animation, SDL_FPoint start, SDL_FPoint end
     insert(&objects, &l, compareObjects);
 }
 
-void start_lerp_texture(Texture graphic, SDL_FPoint start, SDL_FPoint end, float speed, u32 z_index) {
-    Lerp l = {OBJECT_LERP, z_index, LERP_TEXTURE, {.texture=graphic}, start, end, SDL_GetPerformanceCounter(), (get_distance(end, start) / speed)};
+void start_lerp_texture(SDL_Texture** texture, SDL_FPoint start, SDL_FPoint end, float speed, u32 z_index) {
+    Lerp l = {OBJECT_LERP, z_index, LERP_TEXTURE, {.texture = *texture}, start, end, SDL_GetPerformanceCounter(), (get_distance(end, start) / speed)};
     
     insert(&objects, &l, compareObjects);
 }
@@ -89,7 +89,7 @@ bool draw_lerp(u32 pos) {
             break;
         }
         case LERP_TEXTURE: {
-            blit(l->graphic.texture.texture, temp.x, temp.y, true);
+            blit(l->graphic.texture, temp.x, temp.y, true);
             break;
         }
         

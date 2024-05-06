@@ -3,13 +3,13 @@
 
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include "structs.h"
-#include "enums.h"
-#include "types.h"
 #include "animate.h"
+#include "enums.h"
+#include "structs.h"
+#include "types.h"
 
 extern App app;
-extern Character *c;
+extern Character* c;
 extern TTF_Font* font;
 extern TTF_Font* font2;
 // GUI * gui;
@@ -24,7 +24,11 @@ extern TTF_Font* font2;
 
 extern SDL_Point resolution;
 
-#define CURRENT_MAP_TEXTURE 0
+typedef enum {
+    CURRENT_MAP_TEXTURE,
+    UI_TEXTURE,
+    PLAYER_TEXTURE
+} DefinedTextures;
 
 extern Array* textures;
 extern Array* animations;
@@ -33,7 +37,7 @@ extern Array* objects;
 
 extern ButtonElement* active;
 
-extern SDL_Cursor* cursor, *hand_cursor, *deny_cursor;
+extern SDL_Cursor *cursor, *hand_cursor, *deny_cursor;
 
 extern Map* map;
 

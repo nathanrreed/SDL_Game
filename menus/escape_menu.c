@@ -58,7 +58,7 @@ void open_options(ButtonElement* e, u8 button) {
 // }
 
 void create_escape_menu() {
-    Menu menu = create_menu(MENU_PAUSE, PAUSE, 3, 1, 3, &escape_toggle, MENU_HIDDEN);  // TODO GET CORRECT LENGTH
+    Menu menu = create_menu(MENU_PAUSE, PAUSE, 3, 0, 3, &escape_toggle, MENU_HIDDEN);  // TODO GET CORRECT LENGTH
     Array* m = menu.components;
 
     Object object = (Object)create_u_element(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3 * 2, GUI);
@@ -81,8 +81,8 @@ void create_escape_menu() {
     // TextBox text = create_textbox(&hello, object.padded.inner, (SDL_Color){0, 0, 0, 255}, 0, GUI + 2);
     // insert(&m, &text, compareObjects);
 
-    Texture texture = (Texture){IMG_LoadTexture(app.renderer, "gfx/ui/container.png")};
-    object = (Object)create_construct(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3 * 2, GRID_SIZE, GUI + 1, texture.texture);
+    // Texture texture = (Texture){IMG_LoadTexture(app.renderer, "gfx/ui/container.png")};
+    object = (Object)create_construct(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3 * 2, GRID_SIZE, GUI + 1, get(textures, UI_TEXTURE));
     insert(&m, &object, compareObjects);
 
     // Buttons should not be inserted

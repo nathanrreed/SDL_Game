@@ -13,7 +13,7 @@
 void create_battle_menu() {
     float lower_third = SCREEN_HEIGHT - SCREEN_HEIGHT / 3;
 
-    Menu menu = create_menu(MENU_BATTLE, GUI, 10, 1, 4, &no_events, MENU_ACTIVE);  // TODO GET CORRECT LENGTH
+    Menu menu = create_menu(MENU_BATTLE, GUI, 10, 0, 4, &no_events, MENU_ACTIVE);  // TODO GET CORRECT LENGTH
     Array* m = menu.components;
 
     Object object = (Object)create_u_element(0, lower_third, SCREEN_WIDTH, SCREEN_HEIGHT / 3, GUI);
@@ -25,9 +25,9 @@ void create_battle_menu() {
     TextBox text = create_textbox(&hello, object.padded.inner, (SDL_Color){0, 0, 0, 255}, 0, GUI + 2);
     insert(&m, &text, compareObjects);
 
-    Texture texture = (Texture){IMG_LoadTexture(app.renderer, "gfx/ui/container.png")};
-    add(&menu.textures, &texture);
-    object = (Object)create_construct(0, lower_third, SCREEN_WIDTH, SCREEN_HEIGHT / 3, GRID_SIZE, GUI + 1, texture.texture);
+    // Texture texture = (Texture){IMG_LoadTexture(app.renderer, "gfx/ui/container.png")};
+    // add(&menu.textures, &texture);
+    object = (Object)create_construct(0, lower_third, SCREEN_WIDTH, SCREEN_HEIGHT / 3, GRID_SIZE, GUI + 1, get(textures, UI_TEXTURE));
     insert(&m, &object, compareObjects);
 
     // Buttons should not be inserted

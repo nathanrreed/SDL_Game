@@ -24,7 +24,8 @@ typedef enum {
     OBJECT_CONSTRUCT,
     OBJECT_BUTTON,
     OBJECT_MENU,
-    OBJECT_TEXT
+    OBJECT_TEXT,
+    OBJECT_DROPDOWN
 } ObjectEnum;
 
 typedef enum {
@@ -38,10 +39,6 @@ typedef enum {
     CON_LEFT,
     CON_FILL
 } ConstuctEnum;
-
-typedef struct {
-    SDL_Texture* texture;
-} Texture;
 
 typedef struct {
     ObjectEnum type;
@@ -75,7 +72,7 @@ typedef enum {
 
 typedef union {
     Animation animation;
-    Texture texture;
+    SDL_Texture* texture;
 } TextureOrAnimation;
 
 typedef struct {
@@ -192,6 +189,17 @@ typedef struct {
     event_fn onEvent;
 } Menu;
 
+typedef struct {
+    ObjectEnum type;
+    u32 z_index;
+    // u32 id;
+    u16 max_num;
+    u16 curr_idx;
+    bool open;
+    Array* buttons;
+    btn_press onPressUp;
+} Dropdown;
+
 struct TextBox;
 typedef string (*text_call)(struct TextBox*);
 typedef struct TextBox {
@@ -210,6 +218,7 @@ typedef union Object {
     Lerp lerp;
     Animation animation;
     Menu menu;
+    Dropdown dropdown;
     UnPaddedElement unpadded;
     PaddedElement padded;
     Construct construct;

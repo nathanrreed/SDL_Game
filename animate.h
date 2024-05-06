@@ -11,7 +11,7 @@ void destroy_animation(Animation* animation);
 
 void start_lerp_animation(Animation* animation, SDL_FPoint start, SDL_FPoint end, float speed, u32 z_index);
 
-void start_lerp_texture(Texture graphic, SDL_FPoint start, SDL_FPoint end, float speed, u32 z_index);
+void start_lerp_texture(SDL_Texture** texture, SDL_FPoint start, SDL_FPoint end, float speed, u32 z_index);
 
 bool draw_lerp(u32 pos);
 

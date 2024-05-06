@@ -8,6 +8,7 @@
 #include "gui.h"
 #include "input.h"
 #include "main.h"
+#include "menu_components/drop_down.h"
 #include "types.h"
 
 // #include <SDL3/SDL_ttf.h>
@@ -196,7 +197,7 @@ void draw_map() {
         for (int y = -1; y <= ceil(SCREEN_HEIGHT / (float)GRID_SIZE); y++) {
             // blit_rect(get(textures, map->tiles[((int)floor(c->grid_position.y) + y) * map->size_x + x + (int)floor(c->grid_position.x)].id), &((SDL_FRect) {(x - fract_x) * GRID_SIZE, (y - fract_y) * GRID_SIZE, GRID_SIZE, GRID_SIZE}), NULL, true);
             tile = map->tiles[((int)floor(c->grid_position.y) + y) * map->size_x + x + (int)floor(c->grid_position.x)].id;
-            blit_rect(((Texture*)get(textures, CURRENT_MAP_TEXTURE))->texture, &((SDL_FRect){(x - fract_x) * GRID_SIZE, (y - fract_y) * GRID_SIZE, GRID_SIZE, GRID_SIZE}), &((SDL_FRect){tile * GRID_SIZE, 0, GRID_SIZE, GRID_SIZE}), true);
+            blit_rect(*((SDL_Texture**)get(textures, CURRENT_MAP_TEXTURE)), &((SDL_FRect){(x - fract_x) * GRID_SIZE, (y - fract_y) * GRID_SIZE, GRID_SIZE, GRID_SIZE}), &((SDL_FRect){tile * GRID_SIZE, 0, GRID_SIZE, GRID_SIZE}), true);
         }
     }
 }
@@ -272,8 +273,10 @@ void draw_objects(Array* objs) {
             // }
             case OBJECT_MENU: {
                 check_inputs(object, object->menu.onEvent);  // gets input even while hidden check that in the onEvent function
+
                 if ((object->menu.flags & MENU_HIDDEN) > 0)  // TODO check if this needs to be changed to let input do stuff
                     break;
+
                 draw_objects(object->menu.components);
 
                 if ((object->menu.flags & MENU_HIDE_BUTTONS) == 0) {
@@ -284,7 +287,18 @@ void draw_objects(Array* objs) {
 
                 break;
             }
+            case OBJECT_DROPDOWN: {
+                check_inputs(object, &dropdownOnEvent);
 
+                draw_button(get(object->dropdown.buttons, 0), MENU_ACTIVE);
+                if (object->dropdown.open) {
+                    for (int j = 1; j < object->dropdown.buttons->length; j++) {
+                        draw_button(get(object->dropdown.buttons, j), MENU_ACTIVE);
+                    }
+                }
+
+                break;
+            }
             case OBJECT_TEXT: {
                 draw_textbox(&object->textbox);
                 break;

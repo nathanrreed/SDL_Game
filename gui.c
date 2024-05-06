@@ -112,12 +112,12 @@ ButtonElement create_button(int x, int y, int w, int h, int padding, string text
 //     }
 // }
 
-Construct create_construct(u32 x, u32 y, u32 w, u32 h, u32 size, u32 z_index, SDL_Texture* texture) {
+Construct create_construct(u32 x, u32 y, u32 w, u32 h, u32 size, u32 z_index, SDL_Texture** texture) {
     Construct e;
     e.type = OBJECT_CONSTRUCT;
     e.rect = (SDL_FRect){x, y, w, h};
     e.z_index = z_index;
-    e.texture = texture;
+    e.texture = *texture;
     e.size = size;
 
     for (int i = 0; i < 9; i++) {
@@ -147,7 +147,7 @@ Menu create_menu(u32 id, u32 z_index, u32 length, u32 textures_length, u32 butto
     e.z_index = z_index;
     e.id = id;
     e.components = create_array(sizeof(Object), length, 0, NULL);
-    e.textures = create_array(sizeof(Texture), textures_length, 0, NULL);
+    e.textures = create_array(sizeof(SDL_Texture**), textures_length, 0, NULL);
     e.buttons = create_array(sizeof(ButtonElement), buttons_length, 0, NULL);
     e.flags = flags;
     e.onEvent = onEvent;

@@ -29,24 +29,31 @@ void choose_resolution(ButtonElement* e, u8 button) {
 
         e->text[x] = 'x';
     }
-    pressUp(e, button);
+    // pressUp(e, button);
 }
 
 Menu create_options_menu() {
-    Menu menu = create_menu(MENU_OPTIONS, PAUSE + 1, 3, 1, 3, &escape_toggle, MENU_HIDDEN);  // TODO GET CORRECT LENGTH
+    Menu menu = create_menu(MENU_OPTIONS, PAUSE + 1, 3, 0, 3, &escape_toggle, MENU_HIDDEN);  // TODO GET CORRECT LENGTH
     Array* m = menu.components;
 
     Object object = (Object)create_u_element(SCREEN_WIDTH / 8, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4 * 3, GUI);
     insert(&m, &object, compareObjects);
 
-    Array* options = create_array(sizeof(char) * 11, 4, 0, NULL);
+    Array* options = create_array(sizeof(char) * 12, 6, 0, NULL);
+    add(&options, "Resolution");
     add(&options, "2560x1440");
     add(&options, "1920x1080");
+    add(&options, "1600x900");
     add(&options, "1366x768");
     add(&options, "1280x720");
 
     // Menu drop_down = create_drop_down((SDL_FPoint){50, 50}, PAUSE, options, 203, &choose_resolution);
     // insert(&m, &drop_down, compareObjects);
+
+    Dropdown drop_down = create_drop_down((SDL_FPoint){50, 50}, PAUSE, options, 203, &choose_resolution);
+    insert(&m, &drop_down, compareObjects);
+
+
 
     // object = (Object)create_p_element(SCREEN_WIDTH / 2, lower_third, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3, 5, GUI + 1);
     // insert(&m, &object, compareObjects);
@@ -54,8 +61,8 @@ Menu create_options_menu() {
     // TextBox text = create_textbox(&hello, object.padded.inner, (SDL_Color){0, 0, 0, 255}, 0, GUI + 2);
     // insert(&m, &text, compareObjects);
 
-    Texture texture = (Texture){IMG_LoadTexture(app.renderer, "gfx/ui/container.png")};
-    object = (Object)create_construct(SCREEN_WIDTH / 8, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4 * 3, GRID_SIZE, GUI + 1, texture.texture);
+    // Texture texture = (Texture){IMG_LoadTexture(app.renderer, "gfx/ui/container.png")};
+    object = (Object)create_construct(SCREEN_WIDTH / 8, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 4 * 3, SCREEN_HEIGHT / 4 * 3, GRID_SIZE, GUI + 1, get(textures, UI_TEXTURE));
     insert(&m, &object, compareObjects);
 
     // Buttons should not be inserted
