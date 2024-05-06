@@ -22,6 +22,8 @@ extern TTF_Font* font2;
 // Array* running_animations;
 // Array* lerps;
 
+extern SDL_Point resolution;
+
 #define CURRENT_MAP_TEXTURE 0
 
 extern Array* textures;

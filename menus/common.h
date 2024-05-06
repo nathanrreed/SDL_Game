@@ -3,7 +3,7 @@
 
 void pressDown(ButtonElement* e, u8 button);
 void pressUp(ButtonElement* e, u8 button);
-void no_action(ButtonElement* e);
+void no_action(ButtonElement* e, u8 button);
 void basic_hover(ButtonElement* e, bool over);
 
 string hello(TextBox* textbox);
@@ -14,8 +14,10 @@ bool escape_toggle(Object* object, SDL_Event* event);
 
 typedef enum {
     MENU_MAIN,
-    MENU_ESCAPE,
-    MENU_BATTLE
+    MENU_PAUSE,
+    MENU_BATTLE,
+    MENU_DROP_DOWN,
+    MENU_OPTIONS
 } MenuIDs;
 
 #pragma once

@@ -1,9 +1,11 @@
 #include "types.h"
+#include "structs.h"
 
 PaddedElement create_p_element(int x, int y, int w, int h, int padding, u32 z_index);
 UnPaddedElement create_u_element(int x, int y, int w, int h, u32 z_index);
 void button_create_connections(
     Array* arr, ButtonElement* button, ButtonElement* left, ButtonElement* right, ButtonElement* up, ButtonElement* down);
+void button_append_connections(ButtonElement* button, ButtonElement* left, ButtonElement* right, ButtonElement* up, ButtonElement* down);
 ButtonElement create_button(int x, int y, int w, int h, int padding, string text, btn_press onPressDown, btn_press onPressUp, btn_hover onHover, ButtonFlags flags, u32 z_index);
 void draw_button(ButtonElement* btn, MenuEnum flags);
 void draw_construct(Construct* construct);

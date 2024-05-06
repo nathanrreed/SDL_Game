@@ -1,26 +1,29 @@
 #include "escape_menu.h"
 
 #include <SDL3_image/SDL_image.h>
+#include <math.h>
 
 #include "../animate.h"
 #include "../defs.h"
 #include "../gui.h"
 #include "../input.h"
 #include "../main.h"
+#include "../menu_components/drop_down.h"
 #include "../structs.h"
 #include "../types.h"
 #include "common.h"
+#include "options_menu.h"
 
 void resume(ButtonElement* e, u8 button) {
     if (button == 1) {
         Menu* menu = find_active_menu(objects);
-        if (menu != NULL) { // Hide menu
+        if (menu != NULL) {  // Hide menu
             menu->flags |= MENU_HIDDEN;
             menu->flags &= (~MENU_ACTIVE);
         }
 
         menu = find_high_z_menu(objects, MENU_ACTIVE | MENU_HIDDEN, 0);
-        if (menu != NULL) { // Give active to highest non hidden
+        if (menu != NULL) {  // Give active to highest non hidden
             menu->flags |= MENU_ACTIVE;
         }
 
@@ -35,14 +38,42 @@ void quit(ButtonElement* e, u8 button) {
     }
 }
 
-void create_escape_menu() {
-    // float lower_third = SCREEN_HEIGHT - SCREEN_HEIGHT / 3;
+void open_options(ButtonElement* e, u8 button) {
+    Menu* menu = find_menu(objects, MENU_OPTIONS, 0, 0);
+    Menu* pause = find_menu(objects, MENU_PAUSE, 0, 0);
+    if (menu != NULL) {
+        menu->flags ^= (MENU_ACTIVE | MENU_HIDDEN);
+        pause->flags ^= (MENU_ACTIVE | MENU_HIDE_BUTTONS);
+    }
 
-    Menu menu = create_menu(MENU_ESCAPE, TOP, 2, 1, 2, &escape_toggle, MENU_HIDDEN);  // TODO GET CORRECT LENGTH
+    pressUp(e, button);
+}
+
+// bool pause_menu(Object* object, SDL_Event* event) {
+//     if (event->type == SDL_EVENT_KEY_UP && event->key.keysym.sym == SDLK_ESCAPE) {
+//         return escape_toggle(object, event);
+//     }
+
+//     return false;
+// }
+
+void create_escape_menu() {
+    Menu menu = create_menu(MENU_PAUSE, PAUSE, 3, 1, 3, &escape_toggle, MENU_HIDDEN);  // TODO GET CORRECT LENGTH
     Array* m = menu.components;
 
     Object object = (Object)create_u_element(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3 * 2, GUI);
     insert(&m, &object, compareObjects);
+
+    // Array* options = create_array(sizeof(char) * 11, 4, 0, NULL);
+    // add(&options, "2560x1440");
+    // add(&options, "1920x1080");
+    // add(&options, "1366x768");
+    // add(&options, "1280x720");
+
+    // Menu drop_down = create_drop_down((SDL_FPoint){50, 50}, MENU_ESCAPE, options, 203, &choose_resolution);
+    // insert(&m, &drop_down, compareObjects);
+    Menu options = create_options_menu();
+    insert(&m, &options, compareObjects);
 
     // object = (Object)create_p_element(SCREEN_WIDTH / 2, lower_third, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3, 5, GUI + 1);
     // insert(&m, &object, compareObjects);
@@ -56,25 +87,18 @@ void create_escape_menu() {
 
     // Buttons should not be inserted
     ButtonElement button = create_button(SCREEN_WIDTH / 5 * 2, SCREEN_HEIGHT / 8, SCREEN_WIDTH / 5, SCREEN_HEIGHT / 6, 6, "Resume", &pressDown, &resume, &basic_hover, CENTER_X | CENTER_Y | SELECTED | ACTIVE, BUTTON);
-    ButtonElement* btn1 = add(&menu.buttons, &button);
+    ButtonElement* btn_resume = add(&menu.buttons, &button);
 
-    button = create_button(SCREEN_WIDTH / 5 * 2, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 5, SCREEN_HEIGHT / 6, 6, "Quit", &pressDown, &quit, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
-    ButtonElement* btn2 = add(&menu.buttons, &button);
+    button = create_button(SCREEN_WIDTH / 5 * 2, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 5, SCREEN_HEIGHT / 6, 6, "Options", &pressDown, &open_options, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
+    ButtonElement* btn_options = add(&menu.buttons, &button);
 
-    // button = create_button(SCREEN_WIDTH / 4, lower_third, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "Magic", &pressDown, &pressUp, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
-    // ButtonElement* btn3 = add(&menu.buttons, &button);
+    button = create_button(SCREEN_WIDTH / 5 * 2, SCREEN_HEIGHT / 8 * 5, SCREEN_WIDTH / 5, SCREEN_HEIGHT / 6, 6, "Quit", &pressDown, &quit, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
+    ButtonElement* btn_quit = add(&menu.buttons, &button);
 
-    // button = create_button(SCREEN_WIDTH / 4, SCREEN_HEIGHT - SCREEN_HEIGHT / 6, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "Run", &pressDown, &pressUp, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
-    // ButtonElement* btn4 = add(&menu.buttons, &button);
+    button_create_connections(menu.buttons, btn_resume, NULL, NULL, NULL, btn_options);
+    button_create_connections(menu.buttons, btn_options, NULL, NULL, btn_resume, btn_quit);
 
-    button_create_connections(menu.buttons, btn1, NULL, NULL, NULL, btn2);
-    button_create_connections(menu.buttons, btn2, NULL, NULL, btn1, NULL);
-    // button_create_connections(menu.buttons, btn3, btn1, NULL, NULL, btn4);
-    // button_create_connections(menu.buttons, btn4, btn2, NULL, btn3, NULL);
-
-    // // // button = create_button(0, lower_third - 50, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "ASS", &test, &basic_hover, CENTER_X | CENTER_Y | SELECTED | HIDDEN | DISABLED, BUTTON);
-    // // // ButtonElement* btn5 = add(&buttons, &button);
-    // // // button_create_connections(btn5, -1, 2, -1, 1);
+    button_create_connections(menu.buttons, btn_quit, NULL, NULL, btn_options, NULL);
 
     insert(&objects, &menu, compareObjects);
 }

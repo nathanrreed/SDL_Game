@@ -175,7 +175,7 @@ typedef struct {
 typedef enum {
     MENU_HIDDEN = 0x1,  // Will it be drawn
     MENU_ACTIVE = 0x2,  // Can any buttons be pressed
-
+    MENU_HIDE_BUTTONS = 0x4,
 } MenuEnum;
 
 union Object;

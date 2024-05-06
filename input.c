@@ -9,6 +9,7 @@
 #include "draw.h"
 #include "gui.h"
 #include "main.h"
+#include "menus/common.h"
 #include "structs.h"
 
 enum {
@@ -61,8 +62,32 @@ Menu* find_high_z_menu(Array* arr, MenuEnum flags, MenuEnum flags_check) {
     Object* curr;
     for (int i = arr->length - 1; i >= 0; i--) {
         curr = get(arr, i);
-        if (curr->type == OBJECT_MENU && (curr->menu.flags & flags) == flags_check) {
-            return &curr->menu;
+        if (curr->type == OBJECT_MENU) {
+            Menu* rtn = find_high_z_menu(curr->menu.components, flags, flags_check);  // Recurse
+            if (rtn != NULL)
+                return rtn;
+
+            if ((curr->menu.flags & flags) == flags_check) {
+                return &curr->menu;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+Menu* find_menu(Array* arr, MenuIDs id, MenuEnum flags, MenuEnum flags_check) {
+    Object* curr;
+    for (int i = arr->length - 1; i >= 0; i--) {
+        curr = get(arr, i);
+        if (curr->type == OBJECT_MENU) {
+            Menu* rtn = find_menu(curr->menu.components,  id, flags, flags_check);  // Recurse
+            if (rtn != NULL)
+                return rtn;
+
+            if ((curr->menu.flags & flags) == flags_check && curr->menu.id == id) {
+                return &curr->menu;
+            }
         }
     }
 
@@ -73,8 +98,14 @@ Menu* find_active_menu(Array* arr) {
     Object* curr;
     for (int i = arr->length - 1; i >= 0; i--) {
         curr = get(arr, i);
-        if (curr->type == OBJECT_MENU && (curr->menu.flags & MENU_ACTIVE) > 0) {
-            return &curr->menu;
+        if (curr->type == OBJECT_MENU) {
+            Menu* rtn = find_active_menu(curr->menu.components);  // Recurse
+            if (rtn != NULL)
+                return rtn;
+
+            if ((curr->menu.flags & MENU_ACTIVE) > 0) {
+                return &curr->menu;
+            }
         }
     }
 

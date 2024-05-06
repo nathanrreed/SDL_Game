@@ -22,6 +22,7 @@ Array* objects = NULL;
 ButtonElement* active = NULL;
 SDL_Cursor* cursor = NULL, *hand_cursor = NULL, *deny_cursor = NULL; 
 Map* map = NULL;
+SDL_Point resolution = {1792, 1008};
 
 bool add_item(Character* c, u32 id) {
     assert(id > 0);

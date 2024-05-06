@@ -97,8 +97,8 @@ void draw_button(ButtonElement* btn, MenuEnum flags) {
         check_button_input(btn);
 
     if ((btn->flags & (HIDDEN | DISABLED)) > 0) {
-        SDL_SetCursor(deny_cursor);
-        cursor = deny_cursor;
+        // SDL_SetCursor(deny_cursor);
+        // cursor = deny_cursor;
         return;
     } else if ((btn->flags & PRESSING) > 0) {  // Pressing
         SDL_SetRenderDrawColor(app.renderer, 255, btn->hover_color.g, btn->hover_color.b, btn->hover_color.a);
@@ -276,8 +276,10 @@ void draw_objects(Array* objs) {
                     break;
                 draw_objects(object->menu.components);
 
-                for (int j = 0; j < object->menu.buttons->length; j++) {
-                    draw_button(get(object->menu.buttons, j), object->menu.flags);
+                if ((object->menu.flags & MENU_HIDE_BUTTONS) == 0) {
+                    for (int j = 0; j < object->menu.buttons->length; j++) {
+                        draw_button(get(object->menu.buttons, j), object->menu.flags);
+                    }
                 }
 
                 break;

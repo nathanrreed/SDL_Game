@@ -1,8 +1,8 @@
 #ifndef DEFS
 #define DEFS
 
-#define SCREEN_WIDTH   284 //256 320
-#define SCREEN_HEIGHT  160 //144 180
+#define SCREEN_WIDTH   320 // Divides well into 1080p and 1440p
+#define SCREEN_HEIGHT  180
 
 #define GRID_SIZE 16
 
@@ -12,6 +12,8 @@ typedef enum {
     GUI = 100,
     BUTTON = 120,
 
+    PAUSE = 1000,
+    
     TOP = INT_MAX
 } ZIndexes;
 

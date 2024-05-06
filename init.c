@@ -32,11 +32,10 @@ void initSDL(void) {
         exit(1);
     }
 
-    int screen_width = 256 * 7, screen_height = 144 * 7; //Set to 1008p
-    app.window = SDL_CreateWindow("SDL Game", screen_width, screen_height, windowFlags);
+    app.window = SDL_CreateWindow("SDL Game", resolution.x, resolution.y, windowFlags);
     
     if (!app.window) {
-        printf("Failed to open %d x %d window: %s\n", screen_width, screen_height, SDL_GetError());
+        printf("Failed to open %d x %d window: %s\n", resolution.x, resolution.y, SDL_GetError());
         exit(1);
     }
 

@@ -16,7 +16,7 @@ void pressDown(ButtonElement* e, u8 button) {
     e->flags |= PRESSING;
 }
 
-void no_action(ButtonElement* e) {}
+void no_action(ButtonElement* e, u8 button) {}
 
 void basic_hover(ButtonElement* e, bool over) {
     e->flags = (e->flags & ~HOVER) | (over << 31);
@@ -44,17 +44,24 @@ bool no_events(Object* object, SDL_Event* event) { return false; }
 
 bool escape_toggle(Object* object, SDL_Event* event) {
     if (event->type == SDL_EVENT_KEY_UP && event->key.keysym.sym == SDLK_ESCAPE) {
-        Menu* menu = find_active_menu(objects);
-        if (menu != NULL && menu != &object->menu) {
-            menu->flags &= (~MENU_ACTIVE);
+        Menu* sub_menu = find_high_z_menu(object->menu.components, (MENU_HIDDEN | MENU_ACTIVE), MENU_ACTIVE);
+        if (sub_menu != NULL) {
+            object->menu.flags |= MENU_ACTIVE;
+            object->menu.flags &= (~MENU_HIDE_BUTTONS);
+            sub_menu->flags ^= (MENU_HIDDEN | MENU_ACTIVE);
         } else {
-            menu = find_high_z_menu(objects, MENU_ACTIVE | MENU_HIDDEN, 0);
+            Menu* menu = find_active_menu(objects);
             if (menu != NULL && menu != &object->menu) {
-                menu->flags |= MENU_ACTIVE;
+                menu->flags &= (~MENU_ACTIVE);
+            } else {
+                menu = find_high_z_menu(objects, MENU_ACTIVE | MENU_HIDDEN, 0);
+                if (menu != NULL && menu != &object->menu) {
+                    menu->flags |= MENU_ACTIVE;
+                }
             }
+            object->menu.flags ^= (MENU_HIDDEN | MENU_ACTIVE);
+            object->menu.flags &= (~MENU_HIDE_BUTTONS);
         }
-
-        object->menu.flags ^= (MENU_HIDDEN | MENU_ACTIVE);
 
         return true;
     }

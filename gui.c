@@ -1,3 +1,5 @@
+#include "gui.h"
+
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <math.h>
@@ -8,7 +10,6 @@
 #include "main.h"
 #include "menus/battle.h"
 #include "menus/escape_menu.h"
-#include "gui.h"
 #include "types.h"
 
 PaddedElement create_p_element(int x, int y, int w, int h, int padding, u32 z_index) {
@@ -41,6 +42,14 @@ UnPaddedElement create_u_element(int x, int y, int w, int h, u32 z_index) {
 
 void button_create_connections(Array* arr, ButtonElement* button, ButtonElement* left, ButtonElement* right, ButtonElement* up, ButtonElement* down) {
     button->direction = (ButtonDirections){calc(button, left), calc(button, right), calc(button, up), calc(button, down), (button - (ButtonElement*)arr->memory)};
+}
+
+// Assumes create connections was called first
+void button_append_connections(ButtonElement* button, ButtonElement* left, ButtonElement* right, ButtonElement* up, ButtonElement* down) {
+    button->direction.left = (left != NULL) ? (calc(button, left)) : button->direction.left;
+    button->direction.right = (right != NULL) ? (calc(button, right)) : button->direction.right;
+    button->direction.up = (up != NULL) ? (calc(button, up)) : button->direction.up;
+    button->direction.down = (down != NULL) ? (calc(button, down)) : button->direction.down;
 }
 
 ButtonElement create_button(int x, int y, int w, int h, int padding, string text, btn_press onPressDown, btn_press onPressUp, btn_hover onHover, ButtonFlags flags, u32 z_index) {
