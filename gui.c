@@ -73,45 +73,7 @@ ButtonElement create_button(int x, int y, int w, int h, int padding, string text
     return e;
 }
 
-// GUI* create_GUI() {
-//      // TODO TAKE IN FILE OR SOMETHING
-//     float lower_third = SCREEN_HEIGHT - SCREEN_HEIGHT / 3;
-//     int num_elements = 6;
-//     GUI* gui = malloc(sizeof(GUI) + sizeof(ElementGUI) * num_elements); // Allocates space for the gui and its elements
-//     gui->num_elements = num_elements;
-//     gui->elements = ((void *) gui + sizeof(GUI));
-
-//     // Will be draw in the order they appear
-//     int i = 0;
-//     gui->elements[i++].unpadded = create_element(0, lower_third, SCREEN_WIDTH, SCREEN_HEIGHT / 3);
-//     gui->elements[i++].padded = create_p_element(SCREEN_WIDTH / 2, lower_third, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3, 5);
-//     // gui->elements[i++].unpadded = create_element(SCREEN_WIDTH / 2, lower_third, 20, 24);
-
-//     gui->elements[i++].button = create_button(0,                lower_third,                       SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 5, "Attack", &test, &basic_hover, CENTER_X | CENTER_Y);
-//     gui->elements[i++].button = create_button(0,                SCREEN_HEIGHT - SCREEN_HEIGHT / 6, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 5, "Equipment", &test, &basic_hover, CENTER_X | CENTER_Y);
-//     gui->elements[i++].button = create_button(SCREEN_WIDTH / 4, lower_third,                       SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 5, "Magic", &test, &basic_hover, CENTER_X | CENTER_Y);
-//     gui->elements[i++].button = create_button(SCREEN_WIDTH / 4, SCREEN_HEIGHT - SCREEN_HEIGHT / 6, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 5, "Run", &test, &basic_hover, CENTER_X | CENTER_Y);
-
-//     assert(i == num_elements);
-//     return gui;
-// }
-
-// void set_active(Array* arr) {
-//     // printf("CALLED\n");
-//     ButtonElement* temp;
-//     for(int i = 0; i < arr->length; i++) {
-//         temp = get(arr, i);
-//         temp->id = i;
-//         if((temp->flags & ACTIVE) > 0) {
-//             // printf("%p\n", active);
-//             active = temp;
-//             // printf("%p\n", active);
-//             // printf("FOUND\n");
-//             // return;
-//         }
-//     }
-// }
-
+// TODO add offset into texture to start
 Construct create_construct(u32 x, u32 y, u32 w, u32 h, u32 size, u32 z_index, SDL_Texture** texture) {
     Construct e;
     e.type = OBJECT_CONSTRUCT;
@@ -126,20 +88,6 @@ Construct create_construct(u32 x, u32 y, u32 w, u32 h, u32 size, u32 z_index, SD
 
     return e;
 }
-
-// void hide_menu(Array* menu, u32 id, bool hide) {
-//     Object* object;
-//     for(int j = 0; j < menu->length; j++) {
-//         object = get(menu, j);
-//         if(object->type == OBJECT_MENU) {
-//             if(object->menu.id == id) {
-//                 object->menu.hidden ^= hide;
-//                 return;
-//             }
-//             hide_menu(object->menu.components, id, hide);
-//         }
-//     }
-// }
 
 Menu create_menu(u32 id, u32 z_index, u32 length, u32 textures_length, u32 buttons_length, event_fn onEvent, MenuEnum flags) {
     Menu e;
@@ -169,44 +117,8 @@ TextBox create_textbox(text_call toDraw, SDL_FRect rect, SDL_Color color, TextRe
 }
 
 void create_GUI() {
-    // // TODO TAKE IN FILE OR SOMETHING
-    // float lower_third = SCREEN_HEIGHT - SCREEN_HEIGHT / 3;
-
-    // Object object = (Object) create_u_element(0, lower_third, SCREEN_WIDTH, SCREEN_HEIGHT / 3, GUI);
-    // insert(&objects, &object, compareObjects);
-
-    // object = (Object) create_p_element(SCREEN_WIDTH / 2, lower_third, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3, 5, GUI + 1);
-    // insert(&objects, &object, compareObjects);
-
-    // textures[num_textures] = IMG_LoadTexture(app.renderer, "gfx/ui/container.png");
-    // object = (Object) create_construct(0, lower_third, SCREEN_WIDTH, SCREEN_HEIGHT / 3, GRID_SIZE, GUI + 1, textures[num_textures++]);
-    // insert(&objects, &object, compareObjects);
-
-    // // Buttons are not sorted!!
-    // ButtonElement button = create_button(0, lower_third, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "Attack", &test, &basic_hover, CENTER_X | CENTER_Y | SELECTED | ACTIVE, BUTTON);
-    // ButtonElement* btn1 = add(&buttons, &button);
-    // button_create_connections(btn1, -1, 2, -1, 1);
-
-    // button = create_button(0, SCREEN_HEIGHT - SCREEN_HEIGHT / 6, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "Equipment", &test, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
-    // ButtonElement* btn2 = add(&buttons, &button);
-    // button_create_connections(btn2, -1, 3, 0, -1);
-
-    // button = create_button(SCREEN_WIDTH / 4, lower_third, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "Magic", &test, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
-    // ButtonElement* btn3 = add(&buttons, &button);
-    // button_create_connections(btn3, 0, -1, -1, 3);
-
-    // button = create_button(SCREEN_WIDTH / 4, SCREEN_HEIGHT - SCREEN_HEIGHT / 6, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "Run", &test, &basic_hover, CENTER_X | CENTER_Y, BUTTON);
-    // ButtonElement* btn4 = add(&buttons, &button);
-    // button_create_connections(btn4, 1, -1, 2, -1);
-
-    // // button = create_button(0, lower_third - 50, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6, 6, "ASS", &test, &basic_hover, CENTER_X | CENTER_Y | SELECTED | HIDDEN | DISABLED, BUTTON);
-    // // ButtonElement* btn5 = add(&buttons, &button);
-    // // button_create_connections(btn5, -1, 2, -1, 1);
-
     create_battle_menu();
     create_escape_menu();
-
-    // set_active(buttons);
 }
 
 ButtonElement* get_btn_dir(ButtonElement* btn, s32 direction) {
@@ -231,43 +143,3 @@ void destroy_objects(Array* objs) {
     }
     free(objs);
 }
-
-// void destroy_GUI(GUI* gui) {
-//     free(gui);
-// }
-
-// void draw_GUI(GUI* gui) {
-//     float lower_third = SCREEN_HEIGHT - SCREEN_HEIGHT / 3;
-
-//     // SDL_FRect rect = {0, lower_third, SCREEN_WIDTH / 4, SCREEN_HEIGHT / 6};
-//     // render_text("AAAS", rect, CENTER_X | CENTER_Y | JUSTIFY_Y);
-
-//     // SDL_RenderLine(app.renderer, 0, lower_third, SCREEN_WIDTH, lower_third);
-
-//     for(int i = 0; i < gui->num_elements; i++) {
-//         switch (gui->elements[i].type) {
-//         case UNPADDED:
-//         {
-//             UnPaddedElement element = gui->elements[i].unpadded;
-//             SDL_SetRenderDrawColor(app.renderer, element.color.r, element.color.g, element.color.b, element.color.a);
-//             SDL_RenderFillRect(app.renderer, &element.rect);
-//             break;
-//         }
-//         case PADDED:
-//         {
-//             PaddedElement element = gui->elements[i].padded;
-//             SDL_SetRenderDrawColor(app.renderer, element.inner_color.r, element.inner_color.g, element.inner_color.b, element.inner_color.a);
-//             SDL_RenderFillRect(app.renderer, &element.inner);
-//             break;
-//         }
-//         case BUTTON:
-//         {
-//             ButtonElement element = gui->elements[i].button;
-//             draw_button(&element);
-//             break;
-//         }
-//         default:
-//             break;
-//         }
-//     }
-// }
