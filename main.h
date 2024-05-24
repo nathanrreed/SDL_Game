@@ -30,6 +30,14 @@ typedef enum {
     PLAYER_TEXTURE
 } DefinedTextures;
 
+typedef enum {
+    PLAYER_TURN,
+    ENEMY_TURN,
+    PAUSED
+} GameState;
+
+extern GameState state;
+
 extern Array* textures;
 extern Array* animations;
 extern Array* objects;

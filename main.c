@@ -23,6 +23,7 @@ ButtonElement* active = NULL;
 SDL_Cursor* cursor = NULL, *hand_cursor = NULL, *deny_cursor = NULL; 
 Map* map = NULL;
 SDL_Point resolution = {1792, 1008};
+GameState state = PLAYER_TURN;
 
 bool add_item(Character* c, u32 id) {
     assert(id > 0);
@@ -51,8 +52,6 @@ Character* create_character(ClassEnum class, int x, int y, int health, string na
     c->name = malloc(sizeof(char) * (strlen(name) + 1));
     strcpy(c->name, name);
 
-    // c->inventory.items = malloc(sizeof(Item) * INV_SIZE);
-    // printf("%d\n", c->inventory.items[0]);
     assert(add_item(c, 1) == true);
 
     // Set all stats to 0
@@ -81,34 +80,13 @@ int main(){
         prepareScene();
 
         cursor = NULL;
-        doInput((startPerf - endPerf) / (float) SDL_GetPerformanceFrequency());
+        if(state != ENEMY_TURN) // TODO only checking input when player can act
+            doInput((startPerf - endPerf) / (float) SDL_GetPerformanceFrequency());
 
         // Grid
-        // draw_map(); //TODO HAVE THIS RETURN A LIST OF THINGS TO DRAW WITH A Z-INDEX
-
-        // draw_grid();
-
-        //Guy
-        // if(c->health > 0)
-        //     blit_rect(textures[GUY], &c->position, true);
-        // else
-        // blit_rect(textures[GUY], &c->position, NULL, true);
-        //SDL_RenderFillRect(app.renderer, &c->position);
-
-        // renderText("COOL", dest);
-        
-        //TODO CHECK IF IT SHOULD COVER
-        //    (map->tiles[((int)floor(position.y) + y) * map->size_x + x + (int)floor(c->grid_position.x)].flags & HIGH_Z) > 0.
+        draw_map(); //TODO HAVE THIS RETURN A LIST OF THINGS TO DRAW WITH A Z-INDEX
 
         draw_objects(objects);
-
-        // printf("Class: %s, Name: %s, Health: %d\nStats:\n\t", CLASSES[c->class].name, c->name, c->health);
-
-        // char sss[200];
-        // // sprintf(sss, "Class: %s, Name: %s, Health: %d\nStats:\n\t", CLASSES[c->class].name, c->name, c->health);
-        // sprintf(sss, "%s, %dhp", c->name, c->health);
-        // SDL_FRect r = {SCREEN_WIDTH / 2 + 6, SCREEN_HEIGHT / 3 * 2 + 6, SCREEN_WIDTH / 2 - 12, 24};
-        // render_text(sss, &r, 0);
 
         #ifdef DEBUG
 
